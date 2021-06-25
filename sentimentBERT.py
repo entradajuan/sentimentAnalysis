@@ -32,6 +32,9 @@ n_gpu = torch.cuda.device_count()
 
 df = pd.read_csv("datasets/IMDBDataset.csv")
 
+# Select only the first 1500 records
+df = df[:1500]
+
 print(df.head)
 print(df.isnull().sum())
 print(df['sentiment'].describe())
