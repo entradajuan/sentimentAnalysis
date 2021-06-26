@@ -33,7 +33,7 @@ n_gpu = torch.cuda.device_count()
 df = pd.read_csv("datasets/IMDBDataset.csv")
 
 # Select only the first 1500 records
-df = df[:1500]
+df = df[:10000]
 
 print(df.head)
 print(df.isnull().sum())
@@ -79,7 +79,7 @@ train_masks = torch.tensor(train_masks)
 validation_masks = torch.tensor(validation_masks)
 
 
-batch_size = 32
+batch_size = 64
 
 train_data = TensorDataset(train_inputs, train_masks, train_labels)
 train_sampler = RandomSampler(train_data)
@@ -99,22 +99,10 @@ def flat_accuracy(preds, labels):
 ## DEFINE MODELS
 
 models = {1: {"name": "bert-base-uncased",
-              "param_no_decay": ['bias', 'LayerNorm.weight'],
-              "learning_rate": 2e-5,
-              "eps": 1e-8,
-              "epochs": 3,
-              "num_warmup_steps": 0},
-          2: {"name": "bert-base-uncased",
-              "param_no_decay": ['bias'],
-              "learning_rate": 1e-5,
-              "eps": 1e-9,
-              "epochs": 3,
-              "num_warmup_steps": 10},
-          3: {"name": "bert-base-uncased",
               "param_no_decay": [],
               "learning_rate": 3e-5,
               "eps": 5e-8,
-              "epochs": 3,
+              "epochs": 6,
               "num_warmup_steps": 30}
           }
 
@@ -213,5 +201,4 @@ for model in models.items():
     plt.ylabel("Loss")
     plt.plot(train_loss_set)
     plt.show()
-
 
